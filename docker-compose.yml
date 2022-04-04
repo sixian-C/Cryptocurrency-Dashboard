@@ -18,11 +18,28 @@ services:
       POSTGRES_HOST: ${POSTGRES_HOST}
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+      - ./Data:/var/lib/Data
       # copy the sql script to create tables
       - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
     restart: always
     ports:
       - "5432:5432"
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    env_file: .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=${MONGO_DB_NAME}
+      - MONGO_INITDB_USERNAME=${MONGO_DB_USERNAME}
+      - MONGO_INITDB_PASSWORD=${MONGO_DB_PASSWORD}
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - 27017:27017
   dashboard:
     image: metabase/metabase
     container_name: dashboard

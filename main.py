@@ -5,14 +5,16 @@
 import schedule
 import time
 from src.fetch_crypto import get_coin_data
-from src.db import *
+from src.postgredb import *
 from src.fetch_crypto import *
+import os
+
 
 def job():
     insert_coindata(get_coin_data())
 
 if __name__ == '__main__':
-    schedule.every(2).seconds.do(job)
+    schedule.every(60).seconds.do(job)
 
     while True:
         schedule.run_pending()
