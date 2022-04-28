@@ -39,9 +39,20 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
       - ./mongo-volume:/data/db
     ports:
-      - 27017:27017
+      - "27017:27017"
   dashboard:
     image: metabase/metabase
     container_name: dashboard
     ports:
       - "3000:3000"
+    volumes:
+    - ./dashboard-volume:/var/lib/metabase/data
+  pyspark:
+    image: jupyter/pyspark-notebook:latest
+    container_name: pyspark
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+    ports:
+      - "9999:8888"
+    volumes:
+      - ./data:/home/jovyan/work

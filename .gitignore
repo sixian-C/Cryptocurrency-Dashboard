@@ -1,7 +1,12 @@
-/Data/crunchbase_odm_orgs.csv
+/Data/
 
 /postgres-data
 
 /init-mongo.js
 
 /mongo-volume
+
+/.idea
+
+/dashboard-volume
+
